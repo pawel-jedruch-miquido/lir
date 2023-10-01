@@ -9,7 +9,7 @@ def largest_interior_rectangle(grid):
     return biggest_span_in_span_map(s_map)
 
 
-@nb.njit("uint32[:,::1](boolean[:,::1])", parallel=True, cache=True)
+@nb.njit("uint32[:,::1](boolean[:,::1])", parallel=False, cache=True)
 def horizontal_adjacency(grid):
     result = np.zeros((grid.shape[0], grid.shape[1]), dtype=np.uint32)
     for y in nb.prange(grid.shape[0]):
@@ -23,7 +23,7 @@ def horizontal_adjacency(grid):
     return result
 
 
-@nb.njit("uint32[:,::1](boolean[:,::1])", parallel=True, cache=True)
+@nb.njit("uint32[:,::1](boolean[:,::1])", parallel=False, cache=True)
 def vertical_adjacency(grid):
     result = np.zeros((grid.shape[0], grid.shape[1]), dtype=np.uint32)
     for x in nb.prange(grid.shape[1]):
@@ -88,7 +88,7 @@ def biggest_span(spans):
 
 @nb.njit(
     "uint32[:, :, :](boolean[:,::1], uint32[:,::1], uint32[:,::1])",
-    parallel=True,
+    parallel=False,
     cache=True,
 )
 def span_map(grid, h_adjacency, v_adjacency):

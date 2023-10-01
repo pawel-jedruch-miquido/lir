@@ -23,7 +23,7 @@ def largest_interior_rectangle(grid, contour):
     return lir
 
 
-@nb.njit("uint32[:,::1](boolean[:,::1])", parallel=True, cache=True)
+@nb.njit("uint32[:,::1](boolean[:,::1])", parallel=False, cache=True)
 def horizontal_adjacency_right2left(grid):
     result = np.zeros(grid.shape, dtype=np.uint32)
     for y in nb.prange(grid.shape[0]):
@@ -37,7 +37,7 @@ def horizontal_adjacency_right2left(grid):
     return result
 
 
-@nb.njit("uint32[:,::1](boolean[:,::1])", parallel=True, cache=True)
+@nb.njit("uint32[:,::1](boolean[:,::1])", parallel=False, cache=True)
 def vertical_adjacency_bottom2top(grid):
     result = np.zeros(grid.shape, dtype=np.uint32)
     for x in nb.prange(grid.shape[1]):
@@ -158,7 +158,7 @@ def cell_on_contour(x, y, contour):
 @nb.njit(
     "Tuple((uint32[:,:,::1], uint8[:,::1], boolean[:,::1]))"
     "(UniTuple(uint32[:,::1], 4), uint32[:,::1])",
-    parallel=True,
+    parallel=False,
     cache=True,
 )
 def create_maps(adjacencies, contour):
